@@ -111,6 +111,8 @@
           element.children('.a').text(v.answer);
           $('#resultsContainer').append(element).append($('<br />'))
         });
+        
+        $("html, body").animate({ scrollTop: 0 }, "slow");
       }
 
       const survey = new Survey.Model(surveyJSON);
