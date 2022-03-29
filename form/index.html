@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>IDT / New Candidate Survey</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://unpkg.com/survey-jquery@1.9.22/modern.css" type="text/css" rel="stylesheet"/>
+    <script src="https://unpkg.com/survey-jquery@1.9.22/survey.jquery.min.js"></script>
+    <style>
+      body {
+        background: rgb(204,204,204); 
+      }
+      page {
+        background: white;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+        width: 25cm;
+      }
+      @media print {
+        body, page {
+          margin: 0;
+          box-shadow: 0;
+        }
+      }
+      #resultsContainer {
+        font-family: "Raleway";
+        margin-right: 5%;
+        margin-left: 5%;
+      }
+      .q {
+        font-weight: bold;
+      }
+      .a {
+        font-style: italic;
+        white-space: pre;
+        white-space: pre-line;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <page>
+      <div id="surveyContainer"></div>
+      <div id="resultsContainer" style="display: none;">
+        <h2>Answers</h2>
+        <p>Thank you! You are <b>almost</b> done.</p>
+        <p style="color: brown; font-weight: bold;">
+          Now please copy your answers below the line and send them to the recruiter you are talking to.
+          We do not send the answers automatically. The answers are saved in your browser, but they will be lost
+          unless you send them to the recruiter.
+        </p>
+        <p>To get back to the form just <a href="javascript:location.reload()">reload</a> the page.</p>
+        <hr />
+      </div>
+    </page>
+
+    <script>
+      Survey.StylesManager.applyTheme("modern");
+
+      var surveyJSON = {"title":"IDT / New Candidate Survey","description":"Hi there! Thank you for your interest in IDT engineering openings! We kindly ask you to fill in the following to help us understand your professional profile and skills better. It should take up to 10 minutes.","logo":"data:image/png;base64,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","logoWidth":"30px","logoHeight":"50px","logoPosition":"right","pages":[{"name":"page1","elements":[{"type":"text","name":"dotnet-years","title":"How many years of commercial hands-on experience do you have with .NET?","isRequired":true,"inputType":"number","size":5,"min":0,"max":100},{"type":"text","name":"dotnetcore-years","title":"How many years of commercial hands-on experience do you have with .NET Core MVC/Web API?","isRequired":true,"inputType":"number","size":5,"min":0,"max":100},{"type":"text","name":"docker-years","title":"How many years of commercial hands-on experience do you have building and running Docker containers in production?","isRequired":true,"validators":[{"type":"numeric","text":"Must be a number from 0 to 100","minValue":0,"maxValue":100}],"inputType":"number","size":5,"min":0,"max":100},{"type":"comment","name":"docker-tech","title":"What technologies have you used to run Docker in production?","enableIf":"{docker-years} > 0","requiredIf":"{docker-years} > 0"},{"type":"multipletext","name":"databases","title":"How many years of commercial hands-on experience do you have with each of the following technologies:","items":[{"name":"oracle","placeHolder":"0","inputType":"number","title":"Oracle","size":0},{"name":"mssql","placeHolder":"0","inputType":"number","title":"MS SQL"},{"name":"mysql","placeHolder":"0","inputType":"number","title":"MySQL/PostgreSQL/AWS Aurora"},{"name":"mongodb","placeHolder":"0","inputType":"number","title":"MongoDB"},{"name":"redis","placeHolder":"0","inputType":"number","title":"Redis"},{"name":"cassandra","placeHolder":"0","inputType":"number","title":"Cassandra"},{"name":"dynamodb","placeHolder":"0","inputType":"number","title":"DynamoDB"},{"name":"cosmosdb","placeHolder":"0","inputType":"number","title":"Azure Cosmos DB"}]},{"type":"multipletext","name":"cloud-services","title":"Please, list AWS/Azure/GCP services that you are familiar with and have had commercial hands-on production experience with?","items":[{"name":"aws","placeHolder":"no experience","title":"AWS"},{"name":"azure","placeHolder":"no experience","title":"Azure"},{"name":"gcp","placeHolder":"no experience","title":"GCP"}]},{"type":"radiogroup","name":"cicd-expereince","title":"Do you have any commercial hands-on experience creating CI/CD pipelines?","isRequired":true,"choices":[{"value":"yes-alot","text":"Yes, a lot"},{"value":"yes-minimal","text":"Yes, minimal"},{"value":"no","text":"No"}]},{"type":"multipletext","name":"cicd-years","title":"How many years of commercial hands-on experience do you have with each of the following technologies:","enableIf":"{cicd-expereince} = 'yes-alot' or {cicd-expereince} = 'yes-minimal'","items":[{"name":"jenkins","placeHolder":"0","inputType":"number","title":"Jenkins"},{"name":"azure","placeHolder":"0","inputType":"number","title":"Azure DevOps"},{"name":"gitlab","placeHolder":"0","inputType":"number","title":"GitLab"},{"name":"github","placeHolder":"0","inputType":"number","title":"Github Actions"}]},{"type":"radiogroup","name":"message-driven-expereince","title":"Do you have any commercial hands-on production experience building scalable and highly available, message-driven microservice-based distributed architectures?","isRequired":true,"choices":[{"value":"yes-implementing","text":"Yes, I have experience implementing such architecture"},{"value":"yes-designing","text":"Yes, I have experience designing but not implementing such architecture"},{"value":"yes-both","text":"Yes, I have experience designing and implementing such architecture"},{"value":"no","text":"No, I don't have such expereince"}]},{"type":"multipletext","name":"messaging-years","title":"How many years of commercial hands-on experience do you have with each of the following technologies:","enableIf":"{message-driven-expereince} = 'yes-implementing' or {message-driven-expereince} = 'yes-designing' or {message-driven-expereince} = 'yes-both'","items":[{"name":"kafka","placeHolder":"0","inputType":"number","title":"Kafka"},{"name":"rabbitmq","placeHolder":"0","inputType":"number","title":"RabbitMQ"},{"name":"activemq","placeHolder":"0","inputType":"number","title":"ActiveMQ"},{"name":"msmq","placeHolder":"0","inputType":"number","title":"MSMQ"},{"name":"aws-snssqs","placeHolder":"0","inputType":"number","title":"AWS SNS/SQS"},{"name":"azure-servicebus","placeHolder":"0","inputType":"number","title":"Azure Service Bus"},{"name":"pulsar","placeHolder":"0","inputType":"number","title":"Pulsar"}]}],"title":"Technical Experience and Skills","description":"Please, make sure to provide correct answers, because in the technical interview you will be asked questions according to your experience and skills provided in the survey."}],"showCompletedPage":false};
+
+      function processResults(survey) {
+        localStorage.setItem('survey-results', JSON.stringify(survey.data));
+
+        const data = [];
+        $.each(survey.getAllQuestions(), function(i, questionsObj) {
+          v = survey.data[questionsObj.name];
+          let answer = "";
+          switch (questionsObj.getType()) {
+            case "multipletext":
+              for (let vi in v) {
+                $(questionsObj.items).each(function(ii, iv){
+                  if (iv.name === vi) {
+                    answer += "- " + iv.fullTitle + ": " + v[vi] + "\n";
+                    return false;
+                  }
+                });
+              };
+              break;
+
+            case "radiogroup":
+              $(questionsObj.choices).each(function(ci, cv){
+                if (cv.value === v) {
+                  answer = cv.pureText;
+                  return false;
+                }
+              });
+              break;
+          
+            default: //text, comment
+              answer = v;
+              break;
+          }
+
+          data.push({
+            question: questionsObj.fullTitle,
+            answer: answer || "N/A"
+          })
+        });
+
+        $('#resultsContainer').show();
+        $.each(data, function(i, v) {
+          let element = $("<div class='qa'><div class='q'></div><div class='a'></div></div>");
+          element.children('.q').text("" + (i+1) + ". " + v.question)
+          element.children('.a').text(v.answer);
+          $('#resultsContainer').append(element).append($('<br />'))
+        });
+      }
+
+      const survey = new Survey.Model(surveyJSON);
+      $(function() {
+        $("#surveyContainer").Survey({
+            model: survey,
+            onComplete: processResults
+        });
+
+        const loacalStorageData = localStorage.getItem('survey-results')
+        if (loacalStorageData !== null) {
+          survey.data = JSON.parse(loacalStorageData);
+        }
+      });
+    </script>
+    
+  </body>
+</html>
